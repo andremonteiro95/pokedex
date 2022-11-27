@@ -6,8 +6,13 @@ const cache = new LRUCache(CACHE_CAPACITY)
 
 export async function apiGet<T = unknown> (input: string | URL): Promise<T> {
   const key = input.toString()
-  const response = cache.get(key) ?? await fetch(input)
-  cache.put(key, response)
 
-  return await response.json()
+  const cachedResponse = cache.get<T>(key)
+  if (cachedResponse) {
+    return cachedResponse
+  }
+
+  const response = await (await fetch(input)).json()
+  cache.put(key, response)
+  return response
 }

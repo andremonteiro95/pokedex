@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getPokemon } from '../api/pokemon'
 import PokemonDescriptionHeader from '../components/Pokemon/PokemonDescriptionHeader'
 import { PokemonDescriptionDetails, PokemonDescriptionList, PokemonDescriptionListRow, PokemonDescriptionTerm } from '../components/Pokemon/PokemonDescriptionList'
+import { PokemonTypeTag } from '../components/Pokemon/PokemonTypeTag'
 import { Pokemon } from '../types'
 import { pokemonIdToDexNumber } from '../utils'
 
@@ -53,23 +54,34 @@ export const PokemonPage = () => {
         </PokemonDescriptionHeader>
 
         <PokemonDescriptionList>
-            <PokemonDescriptionListRow>
-              <PokemonDescriptionTerm>
-                Height
-              </PokemonDescriptionTerm>
-              <PokemonDescriptionDetails>
-                {pokemon.height / 10}m
-              </PokemonDescriptionDetails>
-            </PokemonDescriptionListRow>
+          <PokemonDescriptionListRow>
+            <PokemonDescriptionTerm>
+              Types
+            </PokemonDescriptionTerm>
+            <PokemonDescriptionDetails>
+              <div className='flex gap-2'>
+                {pokemon.types.map(type => (<PokemonTypeTag name={type.type.name} />))}
+              </div>
+            </PokemonDescriptionDetails>
+          </PokemonDescriptionListRow>
 
-            <PokemonDescriptionListRow>
-              <PokemonDescriptionTerm>
-                Application for
-              </PokemonDescriptionTerm>
-              <PokemonDescriptionDetails>
-                Backend Developer
-              </PokemonDescriptionDetails>
-            </PokemonDescriptionListRow>
+          <PokemonDescriptionListRow>
+            <PokemonDescriptionTerm>
+              Height
+            </PokemonDescriptionTerm>
+            <PokemonDescriptionDetails>
+              {pokemon.height / 10} m
+            </PokemonDescriptionDetails>
+          </PokemonDescriptionListRow>
+
+          <PokemonDescriptionListRow>
+            <PokemonDescriptionTerm>
+              Weight
+            </PokemonDescriptionTerm>
+            <PokemonDescriptionDetails>
+              {pokemon.weight / 10} kg
+            </PokemonDescriptionDetails>
+          </PokemonDescriptionListRow>
         </PokemonDescriptionList>
       </div>
     </div>

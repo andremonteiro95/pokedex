@@ -3,7 +3,7 @@ export default class LRUCache {
 
   constructor (private readonly capacity: number) {}
 
-  get (key: string): Response | undefined {
+  get<T = unknown> (key: string): T | undefined {
     if (!this.cache.has(key)) return
 
     const value = this.cache.get(key)
@@ -15,7 +15,7 @@ export default class LRUCache {
     return value
   }
 
-  put (key: string, value: Response): void {
+  put<T = unknown> (key: string, value: T): void {
     this.cache.delete(key)
 
     if (this.cache.size === this.capacity) {
