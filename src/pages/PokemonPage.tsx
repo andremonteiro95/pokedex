@@ -10,7 +10,7 @@ import { Pokemon } from '../types'
 import { pokemonIdToDexNumber } from '../utils'
 
 export const PokemonPage = () => {
-  const { pokemonId } = useParams()
+  const { pokemonName } = useParams()
   const navigate = useNavigate()
 
   const [isLoading, setIsLoading] = useState(true)
@@ -19,20 +19,20 @@ export const PokemonPage = () => {
   const { favorites, toggleFavorite } = useFavoritesStore()
 
   useEffect(() => {
-    if (!pokemonId) {
+    if (!pokemonName) {
       navigate('/', { replace: true })
       return
     }
 
     setIsLoading(true)
 
-    getPokemon(+pokemonId)
+    getPokemon(pokemonName)
       .then((pokemon) => {
         setPokemon(pokemon)
         setIsLoading(false)
       })
       .catch(() => {})
-  }, [pokemonId])
+  }, [pokemonName])
 
   if (!pokemon || isLoading) {
     return null
@@ -57,9 +57,9 @@ export const PokemonPage = () => {
           </div>
 
           <FavoriteButton
-            id={pokemon.id}
-            isFavorite={!!favorites[pokemon.id]}
-            toggleFavorite={(id) => { toggleFavorite(id, pokemon.name) }}
+            name={pokemon.name}
+            isFavorite={!!favorites.has(pokemon.name)}
+            toggleFavorite={(name) => { toggleFavorite(name) }}
           />
         </PokemonDescriptionHeader>
 

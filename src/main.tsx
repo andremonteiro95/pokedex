@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
-import { Layout } from './components/Layout/Layout'
+import { App } from './App'
 import './index.scss'
 import { FavoritesPage } from './pages/FavoritesPage'
 import IndexPage from './pages/IndexPage'
@@ -14,22 +14,26 @@ import { PokemonPage } from './pages/PokemonPage'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <IndexPage />
-  },
-  {
-    path: '/favorites',
-    element: <FavoritesPage />
-  },
-  {
-    path: '/pokemon/:pokemonId',
-    element: <PokemonPage />
+    element: <App />,
+    children: [
+      {
+        path: '',
+        element: <IndexPage />
+      },
+      {
+        path: 'favorites',
+        element: <FavoritesPage />
+      },
+      {
+        path: 'pokemon/:pokemonName',
+        element: <PokemonPage />
+      }
+    ]
   }
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Layout>
       <RouterProvider router={router} />
-    </Layout>
   </React.StrictMode>
 )

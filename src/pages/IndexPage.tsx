@@ -1,35 +1,52 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import usePokemonListStore from '../stores/usePokemonListStore'
 import useFavoritesStore from '../stores/useFavoritesStore'
 import { PokemonList } from '../components/PokemonList/PokemonList'
 import { PokemonListCard } from '../components/PokemonList/PokemonListCard'
+import { PaginationLinks } from '../components/Layout/PaginationLinks'
+import { useSearchParams } from 'react-router-dom'
 
 function IndexPage () {
-  const { list, loadPage } = usePokemonListStore((state) => ({
+  const { list, loadPage, previous, next } = usePokemonListStore((state) => ({
     list: state.results,
-    loadPage: state.loadPage
+    loadPage: state.loadPage,
+    previous: state.previous,
+    next: state.next
   }))
   const { favorites, toggleFavorite } = useFavoritesStore()
 
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const page = useMemo(
+    () => +(searchParams.get('page') ?? 1),
+    [searchParams]
+  )
+
   useEffect(() => {
-    loadPage(1)
-  }, [])
+    if (page < 1) {
+      setSearchParams({ page: '1' })
+      return
+    }
+    loadPage(page)
+  }, [page])
+
+  // TODO: Loading spinner
 
   return (
-    <PokemonList>
-      {list?.map(({ name }, index) => {
-        const id = index + 1
-        return (
+    <div className='flex flex-col gap-4'>
+      <PokemonList>
+        {list?.map(({ name }) => (
           <PokemonListCard
             key={name}
-            id={id}
             name={name}
-            isFavorite={!!favorites[id]}
-            toggleFavorite={(id) => { toggleFavorite(id, name) }}
+            isFavorite={!!favorites.has(name)}
+            toggleFavorite={(name) => { toggleFavorite(name) }}
           />
-        )
-      })}
-    </PokemonList>
+        ))}
+      </PokemonList>
+
+      <PaginationLinks currentPage={page} hasPreviousPage={!!previous} hasNextPage={!!next} />
+    </div>
   )
 }
 

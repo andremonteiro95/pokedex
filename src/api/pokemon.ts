@@ -15,7 +15,7 @@ export async function listPokemon ({ page, limit = PAGE_LIMIT }: {
   return await apiGet<NamedAPIResourceList>(url)
 }
 
-export async function getPokemon (id: number) {
-  const url = new URL(`pokemon/${id}`, BASE_URL)
+export async function getPokemon (name: string) {
+  const url = new URL(`pokemon/${name}`, BASE_URL)
   return await apiGet<Pokemon>(url)
 }

@@ -1,13 +1,13 @@
 import React from 'react'
 import loveball from '../assets/loveball.png'
 
-export const FavoriteButton = ({ id, isFavorite, toggleFavorite }: {
-  id: number
+export const FavoriteButton = ({ name, isFavorite, toggleFavorite }: {
+  name: string
   isFavorite: boolean
-  toggleFavorite: (id: number) => void
+  toggleFavorite: (name: string) => void
 }) => {
   return (
-    <button type="button" onClick={() => toggleFavorite(id)} title="Toggle favorite">
+    <button type="button" onClick={() => toggleFavorite(name)} title="Toggle favorite">
       <img className={isFavorite ? undefined : 'grayscale'} src={loveball} alt="Toggle favorite icon" />
     </button>
   )
