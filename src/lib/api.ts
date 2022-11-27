@@ -2,6 +2,7 @@ import LRUCache from './lru-cache'
 
 const CACHE_CAPACITY = 10
 
+// TODO: Use env variables for cache capacity
 const cache = new LRUCache(CACHE_CAPACITY)
 
 export async function apiGet<T = unknown> (input: string | URL): Promise<T> {

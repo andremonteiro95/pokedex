@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getPokemon } from '../api/pokemon'
+import { FavoriteButton } from '../components/FavoriteButton'
 import PokemonDescriptionHeader from '../components/Pokemon/PokemonDescriptionHeader'
 import { PokemonDescriptionDetails, PokemonDescriptionList, PokemonDescriptionListRow, PokemonDescriptionTerm } from '../components/Pokemon/PokemonDescriptionList'
 import { PokemonTypeTag } from '../components/Pokemon/PokemonTypeTag'
+import useFavoritesStore from '../stores/useFavoritesStore'
 import { Pokemon } from '../types'
 import { pokemonIdToDexNumber } from '../utils'
 
@@ -13,6 +15,8 @@ export const PokemonPage = () => {
 
   const [isLoading, setIsLoading] = useState(true)
   const [pokemon, setPokemon] = useState<Pokemon>()
+
+  const { favorites, toggleFavorite } = useFavoritesStore()
 
   useEffect(() => {
     if (!pokemonId) {
@@ -51,6 +55,12 @@ export const PokemonPage = () => {
             </p>
             <h1 className='capitalize text-3xl font-semibold'>{pokemon.name}</h1>
           </div>
+
+          <FavoriteButton
+            id={pokemon.id}
+            isFavorite={!!favorites[pokemon.id]}
+            toggleFavorite={(id) => { toggleFavorite(id, pokemon.name) }}
+          />
         </PokemonDescriptionHeader>
 
         <PokemonDescriptionList>
@@ -60,7 +70,7 @@ export const PokemonPage = () => {
             </PokemonDescriptionTerm>
             <PokemonDescriptionDetails>
               <div className='flex gap-2'>
-                {pokemon.types.map(type => (<PokemonTypeTag name={type.type.name} />))}
+                {pokemon.types.map(type => (<PokemonTypeTag key={type.slot} name={type.type.name} />))}
               </div>
             </PokemonDescriptionDetails>
           </PokemonDescriptionListRow>

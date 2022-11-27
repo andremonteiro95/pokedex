@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import './index.scss'
+import { FavoritesPage } from './pages/FavoritesPage'
 import IndexPage from './pages/IndexPage'
 import { PokemonPage } from './pages/PokemonPage'
 
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <IndexPage />
+  },
+  {
+    path: '/favorites',
+    element: <FavoritesPage />
   },
   {
     path: '/pokemon/:pokemonId',

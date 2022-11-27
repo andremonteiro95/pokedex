@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import usePokemonListStore from '../stores/pokemon-list'
+import usePokemonListStore from '../stores/usePokemonListStore'
+import useFavoritesStore from '../stores/useFavoritesStore'
 import { PokemonList } from '../components/PokemonList/PokemonList'
 import { PokemonListCard } from '../components/PokemonList/PokemonListCard'
 
@@ -8,6 +9,7 @@ function IndexPage () {
     list: state.results,
     loadPage: state.loadPage
   }))
+  const { favorites, toggleFavorite } = useFavoritesStore()
 
   useEffect(() => {
     loadPage(1)
@@ -15,7 +17,18 @@ function IndexPage () {
 
   return (
     <PokemonList>
-      {list?.map(({ name }, index) => (<PokemonListCard key={name} id={index + 1} name={name} />))}
+      {list?.map(({ name }, index) => {
+        const id = index + 1
+        return (
+          <PokemonListCard
+            key={name}
+            id={id}
+            name={name}
+            isFavorite={!!favorites[id]}
+            toggleFavorite={(id) => { toggleFavorite(id, name) }}
+          />
+        )
+      })}
     </PokemonList>
   )
 }

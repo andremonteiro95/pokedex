@@ -1,6 +1,7 @@
 import { apiGet } from '../lib/api'
 import { NamedAPIResourceList, Pokemon } from '../types'
 
+// TODO: Use env variables for base URL
 const BASE_URL = 'https://pokeapi.co/api/v2/'
 const PAGE_LIMIT = 20
 
