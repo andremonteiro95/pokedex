@@ -4,11 +4,13 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { App } from './App'
-import './index.scss'
 import { FavoritesPage } from './pages/FavoritesPage'
 import IndexPage from './pages/IndexPage'
 import { PokemonPage } from './pages/PokemonPage'
+import './index.scss'
+import 'react-toastify/dist/ReactToastify.min.css'
 
 /** TODO: 404 page */
 const router = createBrowserRouter([
@@ -35,5 +37,6 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
       <RouterProvider router={router} />
+      <ToastContainer />
   </React.StrictMode>
 )

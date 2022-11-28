@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { getPokemon } from '../api/pokemon'
 import { PokemonDescriptionHeader } from '../components/Pokemon/PokemonDescriptionHeader'
 import { PokemonDescriptionDetails, PokemonDescriptionList, PokemonDescriptionListRow, PokemonDescriptionTerm } from '../components/Pokemon/PokemonDescriptionList'
@@ -29,7 +30,9 @@ export const PokemonPage = () => {
         setPokemon(pokemon)
         setIsLoading(false)
       })
-      .catch(() => {})
+      .catch((error) => {
+        toast.error(error?.message || 'An error has occurred while loading the details.')
+      })
   }, [pokemonName])
 
   return (

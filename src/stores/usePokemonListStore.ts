@@ -4,7 +4,7 @@ import { NamedAPIResourceList } from '../types'
 
 interface PokemonListState extends Partial<NamedAPIResourceList> {
   isLoading: boolean
-  loadPage: (pageNumber: number) => void
+  loadPage: (pageNumber: number) => Promise<void>
 }
 
 const usePokemonListStore = create<PokemonListState>((set) => ({

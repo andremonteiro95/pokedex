@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react'
+import { toast } from 'react-toastify'
 import usePokemonListStore from '../stores/usePokemonListStore'
 import useFavoritesStore from '../stores/useFavoritesStore'
 import { PokemonList } from '../components/PokemonList/PokemonList'
@@ -28,7 +29,10 @@ function IndexPage () {
       setSearchParams({ page: '1' })
       return
     }
-    loadPage(page)
+    // TODO: Proper error handling
+    loadPage(page).catch((error) => {
+      toast.error(error?.message || 'An error has occurred while loading the list.')
+    })
   }, [page])
 
   return (
