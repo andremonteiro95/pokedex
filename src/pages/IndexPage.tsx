@@ -2,14 +2,15 @@ import { useEffect, useMemo } from 'react'
 import usePokemonListStore from '../stores/usePokemonListStore'
 import useFavoritesStore from '../stores/useFavoritesStore'
 import { PokemonList } from '../components/PokemonList/PokemonList'
-import { PokemonListCard } from '../components/PokemonList/PokemonListCard'
+import { PokemonListCard, PokemonListLoadingCard } from '../components/PokemonList/PokemonListCard'
 import { PaginationLinks } from '../components/Layout/PaginationLinks'
 import { useSearchParams } from 'react-router-dom'
 
 function IndexPage () {
-  const { list, loadPage, previous, next } = usePokemonListStore((state) => ({
+  const { list, loadPage, isLoading, previous, next } = usePokemonListStore((state) => ({
     list: state.results,
     loadPage: state.loadPage,
+    isLoading: state.isLoading,
     previous: state.previous,
     next: state.next
   }))
@@ -30,12 +31,11 @@ function IndexPage () {
     loadPage(page)
   }, [page])
 
-  // TODO: Loading spinner
-
   return (
     <div className='flex flex-col gap-4'>
       <PokemonList>
-        {list?.map(({ name }) => (
+        {isLoading && new Array(20).fill(undefined).map((_, index) => <PokemonListLoadingCard key={index} />)}
+        {!isLoading && list?.map(({ name }) => (
           <PokemonListCard
             key={name}
             name={name}
